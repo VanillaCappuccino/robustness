@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ~/new_begin.sh
+#source ~/new_begin.sh
 
-python test.py -m resnet50 -p gaussian_noise
+python ImageNet-P/test.py -m resnet50 -p gaussian_noise
 
