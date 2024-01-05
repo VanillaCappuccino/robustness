@@ -37,6 +37,7 @@ parser.add_argument('--perturbation', '-p', default='brightness', type=str,
 parser.add_argument('--difficulty', '-d', type=int, default=1, choices=[1, 2, 3])
 # Acceleration
 parser.add_argument('--ngpu', type=int, default=1, help='0 = CPU.')
+parser.add_argument("--num_workers", type = int, default = 0, help = "Number of workers.")
 args = parser.parse_args()
 print(args)
 
@@ -197,17 +198,19 @@ print('Model Loaded\n')
 mean = [0.485, 0.456, 0.406]
 std = [0.229, 0.224, 0.225]
 
+num_workers = args.num_workers
+
 if args.difficulty > 1 and 'noise' in args.perturbation:
     loader = torch.utils.data.DataLoader(
         VideoFolder(root=root_dir +
                          args.perturbation + '_' + str(args.difficulty),
                     transform=trn.Compose([trn.ToTensor(), trn.Normalize(mean, std)])),
-        batch_size=args.test_bs, shuffle=False, num_workers=5, pin_memory=True)
+        batch_size=args.test_bs, shuffle=False, num_workers=num_workers, pin_memory=True)
 else:
     loader = torch.utils.data.DataLoader(
         VideoFolder(root=root_dir + args.perturbation,
                     transform=trn.Compose([trn.ToTensor(), trn.Normalize(mean, std)])),
-        batch_size=args.test_bs, shuffle=False, num_workers=5, pin_memory=True)
+        batch_size=args.test_bs, shuffle=False, num_workers=num_workers, pin_memory=True)
 
 print('Data Loaded\n')
 
