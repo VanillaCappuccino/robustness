@@ -7,3 +7,4 @@ scipy
 tqdm
 fire
 requests
+cv2
