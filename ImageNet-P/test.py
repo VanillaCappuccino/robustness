@@ -13,6 +13,8 @@ from resnext_101_32x4d import resnext_101_32x4d
 from resnext_101_64x4d import resnext_101_64x4d
 from scipy.stats import rankdata
 
+root_dir = "/datasets/imagenet-p/"
+
 if __package__ is None:
     import sys
     from os import path
@@ -197,13 +199,13 @@ std = [0.229, 0.224, 0.225]
 
 if args.difficulty > 1 and 'noise' in args.perturbation:
     loader = torch.utils.data.DataLoader(
-        VideoFolder(root="/share/data/vision-greg2/users/dan/datasets/ImageNet-P/" +
+        VideoFolder(root=root_dir +
                          args.perturbation + '_' + str(args.difficulty),
                     transform=trn.Compose([trn.ToTensor(), trn.Normalize(mean, std)])),
         batch_size=args.test_bs, shuffle=False, num_workers=5, pin_memory=True)
 else:
     loader = torch.utils.data.DataLoader(
-        VideoFolder(root="/share/data/vision-greg2/users/dan/datasets/ImageNet-P/" + args.perturbation,
+        VideoFolder(root=root_dir + args.perturbation,
                     transform=trn.Compose([trn.ToTensor(), trn.Normalize(mean, std)])),
         batch_size=args.test_bs, shuffle=False, num_workers=5, pin_memory=True)
 

@@ -2,5 +2,5 @@
 
 source ~/new_begin.sh
 
-python test.py -m $1 -p $2
+python test.py -m resnet50 -p gaussian_noise
 
