@@ -46,4 +46,4 @@ RUN python -m pip install -r requirements.txt
 EXPOSE 8000
 
 # Run the application.
-CMD bash test.sh
+CMD bash ImageNet-P/test.sh
