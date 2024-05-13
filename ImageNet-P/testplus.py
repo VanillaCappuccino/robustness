@@ -87,7 +87,7 @@ parser.add_argument('--difficulty', '-d', type=int, default=1, choices=[1, 2, 3]
 # Acceleration
 parser.add_argument('--ngpu', type=int, default=1, help='0 = CPU.')
 parser.add_argument("--num_workers", type = int, default = 0, help = "Number of workers.")
-parser.add_argument("--rn18_checkpoint", "-cp", type="str", default="", help = "Location of RN18 checkpoint to load state dict from, if a checkpoint is to be used.")
+parser.add_argument("--rn18_checkpoint", "-cp", type=str, default="", help = "Location of RN18 checkpoint to load state dict from, if a checkpoint is to be used.")
 args = parser.parse_args()
 print(args)
 
@@ -389,7 +389,12 @@ print('Flipping Prob\t{:.5f}'.format(mfr))
 print('Top5 Distance\t{:.5f}'.format(mt5))
 print('Zipf Distance\t{:.5f}'.format(zipf))
 
-contents = [{"Model Name": model_name, "RunID": date_time, "Perturbation": args.perturbation, "mFR": "{:.5f}".format(mfr), "mT5D": "{:.5f}".format(mt5), "Zipf": "{:.5f}".format(zipf)}]
+if args.difficulty > 1 and "noise" in args.perturbation:
+    prt = args.perturbation + args.difficulty
+else:
+    prt = args.perturbation
+
+contents = [{"Model Name": model_name, "RunID": date_time, "Perturbation": prt, "mFR": "{:.5f}".format(mfr), "mT5D": "{:.5f}".format(mt5), "Zipf": "{:.5f}".format(zipf)}]
 
 with open(filename, "a+") as f:
 

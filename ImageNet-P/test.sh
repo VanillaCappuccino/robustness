@@ -14,4 +14,3 @@ array=('gaussian_noise' 'shot_noise' 'motion_blur' 'zoom_blur' 'spatter' 'bright
 'rotate' 'tilt' 'scale' 'speckle_noise' 'gaussian_blur' 'snow' 'shear')
 
 runAllPerturbations "${array[@]}"
-
