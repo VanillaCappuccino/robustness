@@ -87,7 +87,7 @@ parser.add_argument('--difficulty', '-d', type=int, default=1, choices=[1, 2, 3]
 # Acceleration
 parser.add_argument('--ngpu', type=int, default=1, help='0 = CPU.')
 parser.add_argument("--num_workers", type = int, default = 0, help = "Number of workers.")
-parser.add_argument("--rn18_checkpoint", type="str", default="", help = "Location of RN18 checkpoint to load state dict from, if a checkpoint is to be used.")
+parser.add_argument("--rn18_checkpoint", "-cp", type="str", default="", help = "Location of RN18 checkpoint to load state dict from, if a checkpoint is to be used.")
 args = parser.parse_args()
 print(args)
 
