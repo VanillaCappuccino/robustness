@@ -101,7 +101,8 @@ print(args)
 
 if args.rn18_checkpoint != "":
     net = models.resnet18()
-    state_dict = torch.load(args.rn18_checkpoint)
+    mdl = torch.load(args.rn18_checkpoint)
+    state_dict = mdl["state_dict"]
     net.load_state_dict(state_dict)
     args.test_bs = 5 # value default for rn18.
 
