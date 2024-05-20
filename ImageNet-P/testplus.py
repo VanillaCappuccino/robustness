@@ -78,7 +78,7 @@ parser.add_argument('--model-name', '-m', default='resnet18', type=str,
                     choices=['alexnet', 'squeezenet1.1', 'vgg11', 'vgg19', 'vggbn',
                              'densenet121', 'densenet169', 'densenet201', 'densenet161',
                              'resnet18', 'resnet34', 'resnet50', 'resnet101', 'resnet152',
-                             'resnext50', 'resnext101', 'resnext101_64'])
+                             'resnext50', 'resnext101', 'resnext101_64', 'vonenet', 'vonenetdn'])
 parser.add_argument('--perturbation', '-p', default='brightness', type=str,
                     choices=['gaussian_noise', 'shot_noise', 'motion_blur', 'zoom_blur',
                              'spatter', 'brightness', 'translate', 'rotate', 'tilt', 'scale',
@@ -88,13 +88,34 @@ parser.add_argument('--difficulty', '-d', type=int, default=1, choices=[1, 2, 3]
 parser.add_argument('--ngpu', type=int, default=1, help='0 = CPU.')
 parser.add_argument("--num_workers", type = int, default = 0, help = "Number of workers.")
 parser.add_argument("--rn18_checkpoint", "-cp", type=str, default="", help = "Location of RN18 checkpoint to load state dict from, if a checkpoint is to be used.")
+parser.add_argument("--vonenet_checkpoint", "-vncp", type=str, default="", help = "Location of RN18 checkpoint to load state dict from, if a checkpoint is to be used.")
+parser.add_argument("--vonenet_checkpoint", "-vncp", type=str, default="", help = "Location of VOneNet checkpoint to load state dict from, if a checkpoint is to be used.")
+parser.add_argument("--vonenetdn_checkpoint", "-vndncp", type=str, default="", help = "Location of VOneNetDN checkpoint to load state dict from, if a checkpoint is to be used.")
+
+
+
+
 args = parser.parse_args()
 print(args)
 
 # /////////////// Model Setup ///////////////
 
 if args.rn18_checkpoint != "":
-    net = torch.load(args.checkpoint)
+    net = models.resnet18()
+    state_dict = torch.load(args.checkpoint)
+    net.load_state_dict(state_dict)
+    args.test_bs = 5 # value default for rn18.
+
+elif args.vonenet_checkpoint != "":
+    net = models.resnet18()
+    state_dict = torch.load(args.checkpoint)
+    net.load_state_dict(state_dict)
+    args.test_bs = 5 # value default for rn18.
+
+elif args.vonenetdn_checkpoint != "":
+    net = models.resnet18()
+    state_dict = torch.load(args.checkpoint)
+    net.load_state_dict(state_dict)
     args.test_bs = 5 # value default for rn18.
 
 else:
@@ -349,7 +370,7 @@ else:
 predictions, ranks = [], []
 with torch.no_grad():
 
-    for data, target in loader:
+    for data, target in tqdm(loader):
         num_vids = data.size(0)
         data = data.view(-1,3,dim,dim).cuda()
 
